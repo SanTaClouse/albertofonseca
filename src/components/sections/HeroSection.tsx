@@ -22,7 +22,7 @@ function HeroVarianteA() {
 
       {/* Foto de fondo */}
       <Image
-        src="/images/hero/foto-principal.jpg"
+        src="https://res.cloudinary.com/dlw9ocu3b/image/upload/f_auto,q_auto,w_1920/v1772291243/alberto_1.jpg_mckvel.jpg"
         alt={ARTISTA.nombre}
         fill
         priority
@@ -53,7 +53,7 @@ function HeroVarianteB() {
       {/* Foto — 60vh en mobile, 50% en desktop */}
       <div className="relative h-[60vh] lg:h-auto lg:w-1/2 lg:sticky lg:top-0 lg:min-h-screen overflow-hidden">
         <Image
-          src="/images/hero/foto-principal.jpg"
+          src="https://res.cloudinary.com/dlw9ocu3b/image/upload/f_auto,q_auto,w_1920/v1772291243/alberto_1.jpg_mckvel.jpg"
           alt={ARTISTA.nombre}
           fill
           priority
