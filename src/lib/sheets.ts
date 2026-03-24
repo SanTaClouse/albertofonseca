@@ -9,7 +9,7 @@ export async function getPresentaciones(): Promise<Presentacion[]> {
 
   try {
     const res = await fetch(`${SHEET_BASE_URL}presentaciones`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
     })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const csv = await res.text()
@@ -27,12 +27,13 @@ export async function getEscritos(): Promise<Escrito[]> {
 
   try {
     const res = await fetch(`${SHEET_BASE_URL}escritos`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
     })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const csv = await res.text()
     return parseCSV<Escrito>(csv)
       .filter((e) => e.activo === true)
+      .map((e) => ({ ...e, fecha: parseFechaEscrito(e.fecha) }))
       .sort((a, b) => b.fecha.localeCompare(a.fecha))
   } catch (error) {
     console.error('Error fetching escritos:', error)
@@ -62,6 +63,17 @@ function parseCSV<T>(csv: string): T[] {
 
     return obj as T
   })
+}
+
+// Convierte fecha de Excel/Sheets (DD/MM/YYYY) a YYYY-MM
+// Si ya viene en formato YYYY-MM o YYYY-MM-DD, la deja como está
+function parseFechaEscrito(fecha: string): string {
+  if (!fecha) return ''
+  // Formato DD/MM/YYYY
+  const match = fecha.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
+  if (match) return `${match[3]}-${match[2].padStart(2, '0')}`
+  // Ya está en YYYY-MM o YYYY-MM-DD → tomar solo YYYY-MM
+  return fecha.slice(0, 7)
 }
 
 // Respeta campos entrecomillados con comas internas

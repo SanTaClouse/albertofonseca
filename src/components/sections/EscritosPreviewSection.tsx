@@ -46,9 +46,9 @@ export default function EscritosPreviewSection({ escritos }: EscritosPreviewSect
                     <h3 className="font-serif text-xl md:text-2xl text-text-primary group-hover:text-accent transition-colors duration-200">
                       {escrito.titulo}
                     </h3>
-                    {escrito.extracto && (
+                    {escrito.resumen && (
                       <p className="font-sans text-sm text-text-secondary leading-relaxed line-clamp-2">
-                        {escrito.extracto}
+                        {escrito.resumen}
                       </p>
                     )}
                   </div>

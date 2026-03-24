@@ -8,7 +8,7 @@ interface EscritoContenidoProps {
 
 export default function EscritoContenido({ escrito }: EscritoContenidoProps) {
   // Convertir saltos de línea \n en párrafos
-  const parrafos = escrito.contenido
+  const parrafos = (escrito.contenido ?? '')
     .split(/\\n|\n/)
     .map((p) => p.trim())
     .filter(Boolean)

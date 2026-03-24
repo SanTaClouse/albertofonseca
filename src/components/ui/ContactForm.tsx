@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { FORMSPREE_ENDPOINT } from '@/lib/constants'
 import { Button } from '@/components/ui/Button'
+
+const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/contacto@albertofonseca.com'
 
 type Status = 'idle' | 'sending' | 'success' | 'error'
 
@@ -17,17 +18,15 @@ export default function ContactForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
-    if (!FORMSPREE_ENDPOINT) {
-      setStatus('error')
-      return
-    }
-
     setStatus('sending')
 
     const formData = new FormData(e.currentTarget)
+    formData.append('_cc', 'manager@albertofonseca.com')
+    formData.append('_subject', 'Nuevo mensaje desde albertofonseca.com')
+    formData.append('_captcha', 'false')
+
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const res = await fetch(FORMSUBMIT_URL, {
         method: 'POST',
         body: formData,
         headers: { Accept: 'application/json' },

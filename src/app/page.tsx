@@ -5,13 +5,10 @@ import VideosSection from '@/components/sections/VideosSection'
 import PresentacionesSection from '@/components/sections/PresentacionesSection'
 import EscritosPreviewSection from '@/components/sections/EscritosPreviewSection'
 import ContactoSection from '@/components/sections/ContactoSection'
-import { getPresentaciones, getEscritos } from '@/lib/sheets'
+import { getPresentaciones } from '@/lib/sheets'
 
 export default async function Home() {
-  const [presentaciones, escritos] = await Promise.all([
-    getPresentaciones(),
-    getEscritos(),
-  ])
+  const presentaciones = await getPresentaciones()
 
   return (
     <main>
@@ -20,7 +17,7 @@ export default async function Home() {
       <DiscografiaSection />
       <VideosSection />
       <PresentacionesSection presentaciones={presentaciones} />
-      <EscritosPreviewSection escritos={escritos.slice(0, 3)} />
+      <EscritosPreviewSection escritos={[]} />
       <ContactoSection />
     </main>
   )

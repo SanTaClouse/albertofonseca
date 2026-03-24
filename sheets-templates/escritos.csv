@@ -1,0 +1,2 @@
+id,titulo,fecha,resumen,contenido,imagen_url,activo
+1,Título del escrito,25/03/2026,Breve resumen que aparece en la portada del sitio.,Texto completo del escrito. Cada salto de línea se convierte en párrafo.,,TRUE

@@ -4,11 +4,11 @@ export const ARTISTA: ArtistaInfo = {
   nombre: 'Alberto Fonseca',
   descripcion: 'Cantautor · Escritor · Periodista',
   tagline: '', // TODO: confirmar con el artista
-  email: '', // TODO: email de contratación
-  whatsapp: '', // TODO: número con código de país ej: +18091234567
-  youtube: '', // TODO: URL del canal
-  spotify: '', // TODO: URL del perfil
-  instagram: '', // TODO: URL del perfil
+  email: 'contacto@albertofonseca.com', // TODO: email de contratación
+  whatsapp: '+18295709979', // TODO: número con código de país ej: +18091234567
+  youtube: 'https://www.youtube.com/@AlbertoFonsecaoficial', // TODO: URL del canal
+  spotify: 'https://open.spotify.com/intl-es/artist/7ccai3pF77t9Tr9jEKjCO5?si=21rQgWz5S7KVYoEHaNNLCg', // TODO: URL del perfil
+  instagram: 'https://www.instagram.com/albertofonseca.ve/', // TODO: URL del perfil
   facebook: '', // TODO: URL del perfil
 }
 
@@ -22,7 +22,7 @@ export const DISCOS: Disco[] = [
     canciones: 13,
     descripcion: '', // TODO: texto descriptivo del disco
     spotifyEmbedId: '4nM2Km0JcpCFQcZwv2NeBY',
-    portada: '/images/discos/la-llave-del-alba.jpg', // TODO: agregar imagen
+    portada: '/images/discos/la-llave-del-alba.png',
   },
   {
     slug: 'amor-de-la-historieta',

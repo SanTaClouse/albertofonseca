@@ -27,7 +27,7 @@ export interface Escrito {
   id: number
   titulo: string
   fecha: string        // YYYY-MM
-  extracto: string
+  resumen: string
   contenido: string
   imagen_url?: string
   activo: boolean

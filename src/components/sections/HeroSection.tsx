@@ -16,7 +16,7 @@ const VARIANTE: 'A' | 'B' | 'placeholder' = 'A'
 // Variante A — Foto full screen con overlay
 // ─────────────────────────────────────────────
 
-function HeroVarianteA() {
+function HeroVarianteA({ tagline }: { tagline?: string }) {
   return (
     <section id="hero" className="relative h-screen min-h-[600px] overflow-hidden">
 
@@ -35,7 +35,7 @@ function HeroVarianteA() {
 
       {/* Contenido — esquina inferior izquierda */}
       <div className="absolute bottom-0 left-0 right-0 max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
-        <HeroTexto />
+        <HeroTexto tagline={tagline} />
       </div>
 
     </section>
@@ -46,7 +46,7 @@ function HeroVarianteA() {
 // Variante B — Split layout (retrato)
 // ─────────────────────────────────────────────
 
-function HeroVarianteB() {
+function HeroVarianteB({ tagline }: { tagline?: string }) {
   return (
     <section id="hero" className="min-h-screen flex flex-col lg:flex-row">
 
@@ -66,7 +66,7 @@ function HeroVarianteB() {
       {/* Texto — sobre bg-primary */}
       <div className="lg:w-1/2 bg-bg-primary flex items-center">
         <div className="w-full px-6 md:px-12 lg:px-16 py-16 lg:py-0">
-          <HeroTexto />
+          <HeroTexto tagline={tagline} />
         </div>
       </div>
 
@@ -78,7 +78,7 @@ function HeroVarianteB() {
 // Placeholder — sin foto todavía
 // ─────────────────────────────────────────────
 
-function HeroPlaceholder() {
+function HeroPlaceholder({ tagline }: { tagline?: string }) {
   return (
     <section id="hero" className="relative min-h-screen flex items-end overflow-hidden bg-bg-primary">
 
@@ -90,7 +90,7 @@ function HeroPlaceholder() {
 
       {/* Contenido */}
       <div className="relative max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pb-24 pt-40 w-full">
-        <HeroTexto />
+        <HeroTexto tagline={tagline} />
       </div>
 
     </section>
@@ -101,7 +101,8 @@ function HeroPlaceholder() {
 // Texto del Hero — compartido entre variantes
 // ─────────────────────────────────────────────
 
-function HeroTexto() {
+function HeroTexto({ tagline }: { tagline?: string }) {
+  const taglineTexto = tagline || ARTISTA.tagline
   return (
     <div className="max-w-2xl">
 
@@ -124,9 +125,9 @@ function HeroTexto() {
       </h1>
 
       {/* Tagline */}
-      {ARTISTA.tagline && (
+      {taglineTexto && (
         <p className="font-sans text-sm md:text-base text-text-secondary mb-10 md:mb-12 max-w-md leading-relaxed">
-          {ARTISTA.tagline}
+          {taglineTexto}
         </p>
       )}
 
@@ -168,8 +169,8 @@ function HeroTexto() {
 // Export
 // ─────────────────────────────────────────────
 
-export default function HeroSection() {
-  if (VARIANTE === 'A') return <HeroVarianteA />
-  if (VARIANTE === 'B') return <HeroVarianteB />
-  return <HeroPlaceholder />
+export default function HeroSection({ tagline }: { tagline?: string }) {
+  if (VARIANTE === 'A') return <HeroVarianteA tagline={tagline} />
+  if (VARIANTE === 'B') return <HeroVarianteB tagline={tagline} />
+  return <HeroPlaceholder tagline={tagline} />
 }

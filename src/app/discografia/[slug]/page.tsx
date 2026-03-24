@@ -28,6 +28,8 @@ export default async function DiscoPage({ params }: Props) {
   const disco = DISCOS.find((d) => d.slug === slug)
   if (!disco) notFound()
 
+  const descripcion = disco.descripcion
+
   return (
     <main className="bg-bg-primary min-h-screen pt-32 pb-20 md:pt-40 md:pb-32">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20">
@@ -83,9 +85,9 @@ export default async function DiscoPage({ params }: Props) {
             </div>
 
             {/* Descripción */}
-            {disco.descripcion && (
+            {descripcion && (
               <p className="font-sans text-base md:text-lg text-text-secondary leading-[1.8] max-w-lg">
-                {disco.descripcion}
+                {descripcion}
               </p>
             )}
 

@@ -11,7 +11,7 @@ const BIO_CORTA = [
 
 // TODO: reemplazar con foto real en /public/images/sobre-mi/
 const FOTO_SOBRE_MI = '/images/sobre-mi/foto.jpg'
-const FOTO_DISPONIBLE = false // cambiar a true cuando llegue la foto
+const FOTO_DISPONIBLE = true
 
 export default function SobreMiSection() {
   return (
