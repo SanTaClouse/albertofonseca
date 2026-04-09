@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_DO',
     siteName: 'Alberto Fonseca',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630 }],
+    images: [{ url: '/public/images/hero/foto-principal.jpg', width: 1200, height: 630 }],
   },
 }
 
