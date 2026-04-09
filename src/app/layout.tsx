@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_DO',
     siteName: 'Alberto Fonseca',
-    images: [{ url: '/public/images/hero/foto-principal.jpg', width: 1200, height: 630 }],
+    images: [{ url: 'https://res.cloudinary.com/dlw9ocu3b/image/upload/c_fill,w_1200,h_630,g_auto,f_jpg,q_auto/v1772291243/alberto_1.jpg_mckvel.jpg', width: 1200, height: 630 }],
   },
 }
 

@@ -1,4 +1,4 @@
-import type { ArtistaInfo, Disco, VideoDestacado } from '@/types'
+import type { ArtistaInfo, Disco, VideoDestacado, Escrito } from '@/types'
 
 export const ARTISTA: ArtistaInfo = {
   nombre: 'Alberto Fonseca',
@@ -42,6 +42,27 @@ export const DISCOS: Disco[] = [
     spotifyEmbedId: null,
     portada: null,
     proximamente: true,
+  },
+]
+
+export const ESCRITOS: Escrito[] = [
+  {
+    id: 1,
+    titulo: '', // TODO: título del primer escrito
+    fecha: '', // formato: YYYY-MM (ej: '2026-03')
+    resumen: '', // texto corto que aparece en el preview de la landing
+    contenido: '', // texto completo. Usar \n\n para separar párrafos
+    imagen_url: '', // opcional, dejar vacío si no hay
+    activo: true,
+  },
+  {
+    id: 2,
+    titulo: '', // TODO: título del segundo escrito
+    fecha: '',
+    resumen: '',
+    contenido: '',
+    imagen_url: '',
+    activo: true,
   },
 ]
 

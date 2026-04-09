@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getEscritos } from '@/lib/sheets'
+import { ESCRITOS } from '@/lib/constants'
 import EscritosPageClient from './EscritosPageClient'
 
 export const metadata: Metadata = {
@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   description: 'Textos y reflexiones de Alberto Fonseca — cantautor, escritor y periodista.',
 }
 
-export default async function EscritosPage() {
-  const escritos = await getEscritos()
+export default function EscritosPage() {
+  const escritos = ESCRITOS.filter((e) => e.activo && e.titulo)
 
   return (
     <main className="bg-bg-primary min-h-screen pt-24 pb-20 md:pt-28 md:pb-32">

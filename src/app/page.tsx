@@ -6,9 +6,11 @@ import PresentacionesSection from '@/components/sections/PresentacionesSection'
 import EscritosPreviewSection from '@/components/sections/EscritosPreviewSection'
 import ContactoSection from '@/components/sections/ContactoSection'
 import { getPresentaciones } from '@/lib/sheets'
+import { ESCRITOS } from '@/lib/constants'
 
 export default async function Home() {
   const presentaciones = await getPresentaciones()
+  const escritosActivos = ESCRITOS.filter((e) => e.activo && e.titulo)
 
   return (
     <main>
@@ -17,7 +19,7 @@ export default async function Home() {
       <DiscografiaSection />
       <VideosSection />
       <PresentacionesSection presentaciones={presentaciones} />
-      <EscritosPreviewSection escritos={[]} />
+      <EscritosPreviewSection escritos={escritosActivos.slice(0, 3)} />
       <ContactoSection />
     </main>
   )

@@ -60,7 +60,7 @@ export default function EscritosPreviewSection({ escritos }: EscritosPreviewSect
           <FadeInSection>
             <div className="flex flex-col items-start gap-4 py-12 border-t border-border">
               <p className="font-sans text-base text-text-secondary">
-                Los escritos se cargarán desde Google Sheets una vez configurado.
+                Los escritos se cargarán una vez configurados.
               </p>
               <Link
                 href="/escritos"
