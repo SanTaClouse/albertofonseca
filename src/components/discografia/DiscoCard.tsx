@@ -10,12 +10,29 @@ export default function DiscoCard({ disco }: DiscoCardProps) {
   if (disco.proximamente) {
     return (
       <div className="bg-bg-secondary">
-        {/* Placeholder portada */}
-        <div className="aspect-square bg-bg-card flex flex-col items-center justify-center gap-3">
-          <div className="w-12 h-px bg-accent" />
-          <p className="font-sans text-xs uppercase tracking-widest text-text-muted">
-            Próximamente
-          </p>
+        {/* Portada o placeholder */}
+        <div className="aspect-square overflow-hidden bg-bg-card relative flex flex-col items-center justify-center gap-3">
+          {disco.portada ? (
+            <>
+              <Image
+                src={disco.portada}
+                alt={`Portada de ${disco.titulo || 'Nuevo álbum'}`}
+                width={600}
+                height={600}
+                className="w-full h-full object-cover"
+              />
+              <p className="absolute bottom-4 font-sans text-xs uppercase tracking-widest text-white bg-black/60 px-3 py-1">
+                Próximamente
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="w-12 h-px bg-accent" />
+              <p className="font-sans text-xs uppercase tracking-widest text-text-muted">
+                Próximamente
+              </p>
+            </>
+          )}
         </div>
         <div className="p-6">
           <p className="font-sans text-xs text-accent uppercase tracking-widest mb-2">

@@ -35,12 +35,12 @@ export const DISCOS: Disco[] = [
   },
   {
     slug: 'nuevo-disco-2026',
-    titulo: '', // TODO: confirmar nombre con el artista
+    titulo: 'Brujería',
     año: 2026,
     canciones: null,
     descripcion: 'Próximamente',
     spotifyEmbedId: null,
-    portada: null,
+    portada: '/images/discos/brujeria.jpeg',
     proximamente: true,
   },
 ]
