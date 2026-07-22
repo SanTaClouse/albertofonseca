@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ARTISTA } from '@/lib/constants'
+import type { ArtistaInfo } from '@/types'
 
 const NAV_LINKS = [
   { label: 'Sobre mí', href: '/#sobre-mi' },
@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { label: 'Contacto', href: '/#contacto' },
 ]
 
-export default function Footer() {
+export default function Footer({ artista }: { artista: ArtistaInfo }) {
   const year = new Date().getFullYear()
 
   return (
@@ -22,10 +22,10 @@ export default function Footer() {
           {/* Columna izquierda — nombre y descripción */}
           <div className="max-w-xs">
             <p className="font-serif text-2xl text-text-primary mb-2">
-              {ARTISTA.nombre}
+              {artista.nombre}
             </p>
             <p className="font-sans text-sm text-text-secondary">
-              {ARTISTA.descripcion}
+              {artista.descripcion}
             </p>
           </div>
 
@@ -59,10 +59,10 @@ export default function Footer() {
               Redes
             </p>
             <ul className="flex flex-col gap-3">
-              {ARTISTA.instagram && (
+              {artista.instagram && (
                 <li>
                   <a
-                    href={ARTISTA.instagram}
+                    href={artista.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-sans text-sm text-text-secondary hover:text-accent transition-colors duration-200"
@@ -71,10 +71,10 @@ export default function Footer() {
                   </a>
                 </li>
               )}
-              {ARTISTA.facebook && (
+              {artista.facebook && (
                 <li>
                   <a
-                    href={ARTISTA.facebook}
+                    href={artista.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-sans text-sm text-text-secondary hover:text-accent transition-colors duration-200"
@@ -83,10 +83,10 @@ export default function Footer() {
                   </a>
                 </li>
               )}
-              {ARTISTA.youtube && (
+              {artista.youtube && (
                 <li>
                   <a
-                    href={ARTISTA.youtube}
+                    href={artista.youtube}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-sans text-sm text-text-secondary hover:text-accent transition-colors duration-200"
@@ -95,10 +95,10 @@ export default function Footer() {
                   </a>
                 </li>
               )}
-              {ARTISTA.spotify && (
+              {artista.spotify && (
                 <li>
                   <a
-                    href={ARTISTA.spotify}
+                    href={artista.spotify}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-sans text-sm text-text-secondary hover:text-accent transition-colors duration-200"
@@ -107,10 +107,10 @@ export default function Footer() {
                   </a>
                 </li>
               )}
-              {ARTISTA.email && (
+              {artista.email && (
                 <li>
                   <a
-                    href={`mailto:${ARTISTA.email}`}
+                    href={`mailto:${artista.email}`}
                     className="font-sans text-sm text-text-secondary hover:text-accent transition-colors duration-200"
                   >
                     Email
@@ -128,7 +128,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <p className="font-sans text-xs text-text-muted">
-            © {year} {ARTISTA.nombre}. Todos los derechos reservados.
+            © {year} {artista.nombre}. Todos los derechos reservados.
           </p>
           <p className="font-sans text-xs text-text-muted">
             República Dominicana

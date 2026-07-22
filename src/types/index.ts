@@ -44,3 +44,8 @@ export interface ArtistaInfo {
   instagram: string
   facebook: string
 }
+
+// ArtistaInfo + textos editables desde el panel admin (tabla config)
+export interface SiteConfig extends ArtistaInfo {
+  sobreMi: string // párrafos separados por saltos de línea
+}

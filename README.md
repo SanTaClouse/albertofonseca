@@ -1,37 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# albertofonseca.com
 
-## Getting Started
+Sitio oficial de Alberto Fonseca — cantautor, escritor y periodista — con panel
+de administración propio para manejar todo el contenido sin tocar código.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router) + Tailwind CSS 4 — desplegado en **Vercel Hobby** (gratis)
+- **Supabase Free** — Postgres (contenido) + Auth (login del panel) + Storage (imágenes)
+- Costo total: **$0/mes**
+
+## Desarrollo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Variables de entorno: ver [`.env.example`](.env.example).
+Setup inicial de Supabase (una sola vez): ver [`SETUP.md`](SETUP.md).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Panel de administración — manual de uso
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Entrar a **`albertofonseca.com/admin`** con email y contraseña.
 
-## Learn More
+| Sección | Qué se maneja |
+|---|---|
+| **Escritos** | Textos con título, mes, resumen, contenido e imagen. Vista previa en vivo mientras se escribe: cada Enter crea un párrafo. |
+| **Discos** | Tapa (subir imagen cuadrada), título, año, canciones, descripción y link de Spotify (se pega el link del álbum y listo). |
+| **Presentaciones** | Fecha, hora, lugar, ciudad y link de entradas de cada show. Las pasadas quedan atenuadas. |
+| **Videos** | Videos destacados de YouTube (se pega el link del video). |
+| **Textos** | Tagline de la portada, texto de «Sobre mí», email, WhatsApp y redes. |
 
-To learn more about Next.js, take a look at the following resources:
+Notas:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Los cambios se publican al instante** al tocar Guardar.
+- El interruptor **«Visible en la web»** permite ocultar algo sin borrarlo.
+- **Eliminar** pide confirmación y no se puede deshacer.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Arquitectura (para el desarrollador)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# albertofonseca
+- `src/app/(publico)/` — sitio público. Lee de Supabase vía [`src/lib/data.ts`](src/lib/data.ts)
+  con ISR (5 min) + revalidación on-demand al guardar desde el panel. Si Supabase no
+  responde, sirve el caché y hace fallback a los defaults de `src/lib/constants.ts` — nunca se rompe.
+- `src/app/admin/` — panel. Protegido por [`src/proxy.ts`](src/proxy.ts) + sesión de
+  Supabase Auth. Mutaciones por Server Actions con RLS (sin `service_role`).
+- `supabase/schema.sql` + `supabase/seed.sql` — esquema y contenido inicial.
+- `/api/keepalive` + cron diario en [`vercel.json`](vercel.json) — evita que el free
+  tier de Supabase pause el proyecto por inactividad.
+- Imágenes del panel → bucket público `imagenes` de Supabase Storage; la foto del
+  hero sigue en Cloudinary.

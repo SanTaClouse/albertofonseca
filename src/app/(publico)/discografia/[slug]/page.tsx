@@ -3,19 +3,25 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import SpotifyEmbed from '@/components/discografia/SpotifyEmbed'
-import { DISCOS } from '@/lib/constants'
+import { getDiscos } from '@/lib/data'
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
+// ISR: discos nuevos creados desde el admin se generan on-demand
+export const revalidate = 300
+export const dynamicParams = true
+
 export async function generateStaticParams() {
-  return DISCOS.map((disco) => ({ slug: disco.slug }))
+  const discos = await getDiscos()
+  return discos.map((disco) => ({ slug: disco.slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const disco = DISCOS.find((d) => d.slug === slug)
+  const discos = await getDiscos()
+  const disco = discos.find((d) => d.slug === slug)
   if (!disco) return {}
   return {
     title: disco.titulo || 'Próximamente',
@@ -25,7 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function DiscoPage({ params }: Props) {
   const { slug } = await params
-  const disco = DISCOS.find((d) => d.slug === slug)
+  const discos = await getDiscos()
+  const disco = discos.find((d) => d.slug === slug)
   if (!disco) notFound()
 
   const descripcion = disco.descripcion
@@ -114,7 +121,7 @@ export default async function DiscoPage({ params }: Props) {
             Más discos
           </p>
           <div className="flex flex-wrap gap-6">
-            {DISCOS.filter((d) => d.slug !== slug).map((d) => (
+            {discos.filter((d) => d.slug !== slug).map((d) => (
               <Link
                 key={d.slug}
                 href={`/discografia/${d.slug}`}

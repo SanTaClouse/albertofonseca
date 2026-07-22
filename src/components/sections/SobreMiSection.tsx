@@ -3,7 +3,7 @@ import Link from 'next/link'
 import FadeInSection from '@/components/ui/FadeInSection'
 import SectionHeader from '@/components/ui/SectionHeader'
 
-// Texto provisional — reemplazar con la biografía real del artista
+// Respaldo si la config de Supabase todavía no tiene texto de "sobre mí"
 const BIO_CORTA = [
   'Alberto Fonseca es un cantautor, escritor y periodista venezolano radicado en República Dominicana. Su obra transita entre la canción de autor y la literatura, construyendo un universo propio donde la palabra es el centro.',
   'Con más de dos décadas de trayectoria, ha publicado dos álbumes — La llave del alba (2005) y Amor de la historieta (2015) — que lo posicionan como una voz íntima y singular en el panorama musical latinoamericano.',
@@ -13,7 +13,13 @@ const BIO_CORTA = [
 const FOTO_SOBRE_MI = '/images/sobre-mi/foto.jpg'
 const FOTO_DISPONIBLE = true
 
-export default function SobreMiSection() {
+export default function SobreMiSection({ sobreMi }: { sobreMi?: string }) {
+  // El texto editable llega como párrafos separados por saltos de línea
+  const parrafos = (sobreMi ?? '')
+    .split(/\\n|\n/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+  const bio = parrafos.length > 0 ? parrafos : BIO_CORTA
   return (
     <section
       id="sobre-mi"
@@ -31,7 +37,7 @@ export default function SobreMiSection() {
             <div className="flex gap-6">
               <div className="w-px bg-accent self-stretch shrink-0" />
               <div className="flex flex-col gap-5">
-                {BIO_CORTA.map((parrafo, i) => (
+                {bio.map((parrafo, i) => (
                   <p
                     key={i}
                     className="font-sans text-base md:text-lg text-text-secondary leading-[1.8]"

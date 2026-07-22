@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
-import Navbar from '@/components/layout/Navbar'
-import Footer from '@/components/layout/Footer'
 import './globals.css'
 
 const playfair = Playfair_Display({
@@ -41,9 +39,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#0D0D0D" />
       </head>
       <body className="antialiased">
-        <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   )

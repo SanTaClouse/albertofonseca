@@ -1,10 +1,15 @@
 import FadeInSection from '@/components/ui/FadeInSection'
 import SectionHeader from '@/components/ui/SectionHeader'
 import YouTubeEmbed from '@/components/ui/YouTubeEmbed'
-import { ARTISTA, VIDEOS_DESTACADOS } from '@/lib/constants'
+import type { VideoDestacado } from '@/types'
 
-export default function VideosSection() {
-  const videosConId = VIDEOS_DESTACADOS.filter((v) => v.youtubeId)
+interface VideosSectionProps {
+  videos: VideoDestacado[]
+  youtubeUrl?: string
+}
+
+export default function VideosSection({ videos, youtubeUrl }: VideosSectionProps) {
+  const videosConId = videos.filter((v) => v.youtubeId)
 
   return (
     <section id="videos" className="bg-bg-primary py-20 md:py-32">
@@ -37,9 +42,9 @@ export default function VideosSection() {
               <p className="font-sans text-sm text-text-muted uppercase tracking-widest">
                 Videos próximamente
               </p>
-              {ARTISTA.youtube && (
+              {youtubeUrl && (
                 <a
-                  href={ARTISTA.youtube}
+                  href={youtubeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="

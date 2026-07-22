@@ -1,9 +1,9 @@
 import FadeInSection from '@/components/ui/FadeInSection'
 import SectionHeader from '@/components/ui/SectionHeader'
 import ContactForm from '@/components/ui/ContactForm'
-import { ARTISTA } from '@/lib/constants'
+import type { ArtistaInfo } from '@/types'
 
-export default function ContactoSection() {
+export default function ContactoSection({ artista }: { artista: ArtistaInfo }) {
   return (
     <section id="contacto" className="bg-bg-secondary py-20 md:py-32">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20">
@@ -20,41 +20,41 @@ export default function ContactoSection() {
 
             {/* Info de contacto directo */}
             <div className="flex flex-col gap-4">
-              {ARTISTA.email && (
+              {artista.email && (
                 <div>
                   <p className="font-sans text-xs uppercase tracking-widest text-accent mb-1">
                     Email
                   </p>
                   <a
-                    href={`mailto:${ARTISTA.email}`}
+                    href={`mailto:${artista.email}`}
                     className="font-sans text-sm text-text-secondary hover:text-accent transition-colors duration-200"
                   >
-                    {ARTISTA.email}
+                    {artista.email}
                   </a>
                 </div>
               )}
 
-              {ARTISTA.whatsapp && (
+              {artista.whatsapp && (
                 <div>
                   <p className="font-sans text-xs uppercase tracking-widest text-accent mb-1">
                     WhatsApp
                   </p>
                   <a
-                    href={`https://wa.me/${ARTISTA.whatsapp.replace(/\D/g, '')}`}
+                    href={`https://wa.me/${artista.whatsapp.replace(/\D/g, '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-sans text-sm text-text-secondary hover:text-accent transition-colors duration-200"
                   >
-                    {ARTISTA.whatsapp}
+                    {artista.whatsapp}
                   </a>
                 </div>
               )}
 
               {/* Redes sociales */}
               <div className="flex gap-6 mt-4">
-                {ARTISTA.instagram && (
+                {artista.instagram && (
                   <a
-                    href={ARTISTA.instagram}
+                    href={artista.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-sans text-sm uppercase tracking-widest text-text-muted hover:text-accent transition-colors duration-200"
@@ -62,9 +62,9 @@ export default function ContactoSection() {
                     Instagram
                   </a>
                 )}
-                {ARTISTA.youtube && (
+                {artista.youtube && (
                   <a
-                    href={ARTISTA.youtube}
+                    href={artista.youtube}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-sans text-sm uppercase tracking-widest text-text-muted hover:text-accent transition-colors duration-200"
@@ -72,9 +72,9 @@ export default function ContactoSection() {
                     YouTube
                   </a>
                 )}
-                {ARTISTA.spotify && (
+                {artista.spotify && (
                   <a
-                    href={ARTISTA.spotify}
+                    href={artista.spotify}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-sans text-sm uppercase tracking-widest text-text-muted hover:text-accent transition-colors duration-200"
