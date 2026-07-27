@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 /* eslint-disable @next/next/no-img-element -- preview local con URL dinámica */
 import { createClient } from '@/lib/supabase/client'
+import ImageCropper from './ImageCropper'
 
 interface ImageUploadProps {
   name: string // nombre del input hidden que envía la URL al server action
@@ -11,9 +12,17 @@ interface ImageUploadProps {
   aspecto?: 'cuadrado' | 'panoramico'
 }
 
+// Proporción del marco y resolución final según el destino de la imagen
+const ENCUADRE = {
+  cuadrado: { aspect: 1, output: { w: 1200, h: 1200 } },
+  panoramico: { aspect: 16 / 9, output: { w: 1600, h: 900 } },
+} as const
+
 /**
  * Sube una imagen al bucket público `imagenes` de Supabase Storage usando
- * la sesión del admin y deja la URL pública en un input hidden del form.
+ * la sesión del admin. Antes de subir, la imagen pasa por un recortador
+ * interactivo (ver ImageCropper) para encuadrarla a la proporción exacta.
+ * Deja la URL pública del recorte en un input hidden del form.
  */
 export default function ImageUpload({
   name,
@@ -22,43 +31,80 @@ export default function ImageUpload({
   aspecto = 'cuadrado',
 }: ImageUploadProps) {
   const [url, setUrl] = useState(defaultUrl ?? '')
-  const [subiendo, setSubiendo] = useState(false)
+  const [archivo, setArchivo] = useState<File | null>(null) // en proceso de encuadre
+  const [procesando, setProcesando] = useState(false)
   const [error, setError] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
 
-  async function handleFile(file: File) {
+  const { aspect, output } = ENCUADRE[aspecto]
+
+  async function subirBlob(blob: Blob): Promise<boolean> {
     setError('')
-
-    if (!file.type.startsWith('image/')) {
-      setError('El archivo debe ser una imagen (JPG, PNG o WebP).')
-      return
-    }
-    if (file.size > 4 * 1024 * 1024) {
-      setError('La imagen pesa más de 4 MB. Achicala antes de subirla.')
-      return
-    }
-
-    setSubiendo(true)
+    setProcesando(true)
     try {
       const supabase = createClient()
-      const extension = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
+      const extension = blob.type === 'image/webp' ? 'webp' : 'jpg'
       const ruta = `${carpeta}/${Date.now()}.${extension}`
 
       const { error: uploadError } = await supabase.storage
         .from('imagenes')
-        .upload(ruta, file, { cacheControl: '31536000', upsert: false })
+        .upload(ruta, blob, {
+          cacheControl: '31536000',
+          upsert: false,
+          contentType: blob.type,
+        })
       if (uploadError) throw uploadError
 
       const { data } = supabase.storage.from('imagenes').getPublicUrl(ruta)
       setUrl(data.publicUrl)
+      return true
     } catch (e) {
       console.error(e)
       setError('No se pudo subir la imagen. Revisá tu conexión e intentá de nuevo.')
+      return false
     } finally {
-      setSubiendo(false)
+      setProcesando(false)
     }
   }
 
+  function elegirArchivo(file: File) {
+    if (!file.type.startsWith('image/')) {
+      setError('El archivo debe ser una imagen (JPG, PNG o WebP).')
+      return
+    }
+    if (file.size > 25 * 1024 * 1024) {
+      setError('La imagen es demasiado grande (máximo 25 MB).')
+      return
+    }
+    setError('')
+    setArchivo(file)
+  }
+
+  // ─── Modo encuadre ───
+  if (archivo) {
+    return (
+      <div className="flex flex-col gap-3">
+        <input type="hidden" name={name} value={url} />
+        <ImageCropper
+          file={archivo}
+          aspect={aspect}
+          output={output}
+          procesando={procesando}
+          onCancel={() => {
+            setArchivo(null)
+            setError('')
+          }}
+          onApply={async (blob) => {
+            const ok = await subirBlob(blob)
+            if (ok) setArchivo(null)
+          }}
+        />
+        {error && <p className="font-sans text-sm text-red-400">{error}</p>}
+      </div>
+    )
+  }
+
+  // ─── Modo normal (preview + botones) ───
   return (
     <div className="flex flex-col gap-3">
       <input type="hidden" name={name} value={url} />
@@ -80,7 +126,7 @@ export default function ImageUpload({
             </p>
           </div>
         )}
-        {subiendo && (
+        {procesando && (
           <div className="absolute inset-0 bg-bg-primary/70 flex items-center justify-center">
             <p className="font-sans text-xs uppercase tracking-widest text-accent">
               Subiendo…
@@ -92,7 +138,7 @@ export default function ImageUpload({
       <div className="flex items-center gap-4">
         <button
           type="button"
-          disabled={subiendo}
+          disabled={procesando}
           onClick={() => fileRef.current?.click()}
           className="
             border border-accent text-accent px-5 py-2
@@ -124,7 +170,7 @@ export default function ImageUpload({
         className="hidden"
         onChange={(e) => {
           const file = e.target.files?.[0]
-          if (file) handleFile(file)
+          if (file) elegirArchivo(file)
           e.target.value = ''
         }}
       />

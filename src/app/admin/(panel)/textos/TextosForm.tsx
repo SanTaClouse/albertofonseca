@@ -22,7 +22,7 @@ export default function TextosForm({ valores }: { valores: Record<string, string
 
       <Campo
         label="Sobre mí"
-        ayuda="Texto de la sección «Sobre mí» de la portada. Cada salto de línea crea un párrafo."
+        ayuda="Texto de la sección «Sobre mí» de la portada. Dejá una línea en blanco (Enter dos veces) para separar párrafos."
       >
         <textarea
           name="sobre_mi"

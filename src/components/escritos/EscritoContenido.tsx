@@ -1,18 +1,13 @@
 import Image from 'next/image'
 import type { Escrito } from '@/types'
 import { formatFechaMes } from '@/lib/utils'
+import TextoFormateado from '@/components/ui/TextoFormateado'
 
 interface EscritoContenidoProps {
   escrito: Escrito
 }
 
 export default function EscritoContenido({ escrito }: EscritoContenidoProps) {
-  // Convertir saltos de línea \n en párrafos
-  const parrafos = (escrito.contenido ?? '')
-    .split(/\\n|\n/)
-    .map((p) => p.trim())
-    .filter(Boolean)
-
   return (
     <article className="min-h-[60vh]">
       {/* Encabezado */}
@@ -39,16 +34,11 @@ export default function EscritoContenido({ escrito }: EscritoContenidoProps) {
       )}
 
       {/* Cuerpo */}
-      <div className="flex flex-col gap-5 max-w-[680px]">
-        {parrafos.map((parrafo, i) => (
-          <p
-            key={i}
-            className="font-sans text-[1.0625rem] md:text-[1.1875rem] text-text-secondary leading-[1.9]"
-          >
-            {parrafo}
-          </p>
-        ))}
-      </div>
+      <TextoFormateado
+        texto={escrito.contenido ?? ''}
+        className="flex flex-col gap-5 max-w-[680px]"
+        parrafoClassName="font-sans text-[1.0625rem] md:text-[1.1875rem] text-text-secondary leading-[1.9]"
+      />
     </article>
   )
 }

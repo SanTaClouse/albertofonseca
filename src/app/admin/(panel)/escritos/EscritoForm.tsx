@@ -7,6 +7,7 @@ import { guardarEscrito, type EstadoForm } from './actions'
 import { Campo, inputClass, MensajeError, Toggle } from '../../_components/ui'
 import SubmitButton from '../../_components/SubmitButton'
 import ImageUpload from '../../_components/ImageUpload'
+import TextoFormateado from '@/components/ui/TextoFormateado'
 
 const mesActual = () => new Date().toISOString().slice(0, 7)
 
@@ -17,11 +18,6 @@ export default function EscritoForm({ escrito }: { escrito?: EscritoRow }) {
   const [titulo, setTitulo] = useState(escrito?.titulo ?? '')
   const [fecha, setFecha] = useState(escrito?.fecha ?? mesActual())
   const [contenido, setContenido] = useState(escrito?.contenido ?? '')
-
-  const parrafos = contenido
-    .split(/\\n|\n/)
-    .map((p) => p.trim())
-    .filter(Boolean)
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
@@ -66,7 +62,7 @@ export default function EscritoForm({ escrito }: { escrito?: EscritoRow }) {
 
         <Campo
           label="Contenido"
-          ayuda="Cada salto de línea (Enter) crea un párrafo nuevo."
+          ayuda="Dejá una línea en blanco (Enter dos veces) para separar párrafos. Un Enter simple es un salto de línea dentro del mismo párrafo."
         >
           <textarea
             name="contenido"
@@ -115,19 +111,17 @@ export default function EscritoForm({ escrito }: { escrito?: EscritoRow }) {
         </h2>
         <div className="w-12 h-px bg-accent mb-8" />
 
-        <div className="flex flex-col gap-5">
-          {parrafos.length > 0 ? (
-            parrafos.map((parrafo, i) => (
-              <p key={i} className="font-sans text-base text-text-secondary leading-[1.9]">
-                {parrafo}
-              </p>
-            ))
-          ) : (
-            <p className="font-sans text-sm text-text-muted italic">
-              El contenido aparecerá acá a medida que escribas…
-            </p>
-          )}
-        </div>
+        {contenido.trim() ? (
+          <TextoFormateado
+            texto={contenido}
+            className="flex flex-col gap-5"
+            parrafoClassName="font-sans text-base text-text-secondary leading-[1.9]"
+          />
+        ) : (
+          <p className="font-sans text-sm text-text-muted italic">
+            El contenido aparecerá acá a medida que escribas…
+          </p>
+        )}
       </aside>
 
     </div>

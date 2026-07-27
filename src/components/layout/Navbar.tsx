@@ -25,10 +25,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
-  // Cerrar menú al cambiar de ruta
-  useEffect(() => {
+  // Cerrar menú al cambiar de ruta (ajuste de estado derivado del cambio de pathname)
+  const [prevPathname, setPrevPathname] = useState(pathname)
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname)
     setMenuOpen(false)
-  }, [pathname])
+  }
 
   // Bloquear scroll del body cuando el menú está abierto
   useEffect(() => {

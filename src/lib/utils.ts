@@ -40,6 +40,26 @@ export function formatFechaCorta(fecha: string): string {
 }
 
 /**
+ * Parsea texto plano en párrafos para renderizar.
+ * - Una línea en blanco (o más) separa párrafos.
+ * - Un salto de línea simple es un salto dentro del mismo párrafo.
+ * Devuelve un array de párrafos, cada uno como array de líneas.
+ * Ej: "Hola\nmundo\n\nAdiós" → [["Hola", "mundo"], ["Adiós"]]
+ */
+export function textoAParrafos(texto: string): string[][] {
+  return (texto ?? '')
+    .replace(/\r\n?/g, '\n') // normaliza saltos de Windows/Mac
+    .split(/\n[ \t]*\n+/) // una o más líneas en blanco = nuevo párrafo
+    .map((bloque) =>
+      bloque
+        .split('\n')
+        .map((linea) => linea.trim())
+        .filter(Boolean)
+    )
+    .filter((lineas) => lineas.length > 0)
+}
+
+/**
  * Convierte un string en slug URL-friendly.
  * Ej: "La llave del alba" → "la-llave-del-alba"
  */
